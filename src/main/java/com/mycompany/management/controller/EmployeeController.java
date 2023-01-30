@@ -4,9 +4,7 @@ import com.mycompany.management.entity.Employee;
 import com.mycompany.management.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -40,5 +38,13 @@ public class EmployeeController {
     public String saveEmployee(@ModelAttribute Employee employee) {
         employeeService.save(employee);
         return "redirect:/";
+    }
+
+    @GetMapping("/showUpdateForm")
+    public ModelAndView showUpdateForm(@RequestParam Integer employeeId) {
+        ModelAndView modelAndView = new ModelAndView("update-employee-form");
+        Employee employee = employeeService.findById(employeeId);
+        modelAndView.addObject("employee", employee);
+        return modelAndView;
     }
 }
