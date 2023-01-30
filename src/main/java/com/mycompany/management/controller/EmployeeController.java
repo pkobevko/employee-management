@@ -5,6 +5,8 @@ import com.mycompany.management.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -24,5 +26,19 @@ public class EmployeeController {
         List<Employee> employees = employeeService.findAll();
         modelAndView.addObject("employees", employees);
         return modelAndView;
+    }
+
+    @GetMapping("/addEmployeeForm")
+    public ModelAndView addEmployeeForm() {
+        ModelAndView modelAndView = new ModelAndView("add-employee-form");
+        Employee employee = new Employee();
+        modelAndView.addObject("employee", employee);
+        return modelAndView;
+    }
+
+    @PostMapping("/saveEmployee")
+    public String saveEmployee(@ModelAttribute Employee employee) {
+        employeeService.save(employee);
+        return "redirect:/";
     }
 }
